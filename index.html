@@ -10,13 +10,10 @@
     <header>
         <h1>XSHIVER</h1>
         <div class="search-bar">
-            <input type="text" placeholder="Search videos...">
+            <input type="text" id="searchInput" placeholder="Search videos...">
         </div>
-        <nav class="categories">
-            <a href="#" class="category active" data-category="all">All</a>
-            <a href="#" class="category" data-category="instagram">Instagram Viral</a>
-            <a href="#" class="category" data-category="indian">Indian Leaked</a>
-            <a href="#" class="category" data-category="telegram">Telegram Viral</a>
+        <nav class="categories" id="categoryTabs">
+            <!-- Categories will be dynamically loaded here -->
         </nav>
     </header>
 
@@ -26,10 +23,9 @@
         </div>
 
         <div class="pagination">
-            <a href="/page1" class="page-link active">1</a>
-            <a href="/page2" class="page-link">2</a>
-            <a href="/page3" class="page-link">3</a>
-            <!-- Dynamic pagination links -->
+            <button id="prev">Previous</button>
+            <span id="pageInfo"></span>
+            <button id="next">Next</button>
         </div>
     </main>
 
@@ -42,6 +38,5 @@
     </footer>
 
     <script src="app.js"></script>
-    <script src="script.js"></script>
 </body>
 </html>
