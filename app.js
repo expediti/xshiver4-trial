@@ -1,58 +1,60 @@
 // Configuration
-const JSON_PATH = "videos.json"; // Single source of truth
-const CATEGORIES = ["All", "Instagram Viral", "Indian Leaked", "Telegram Viral"];
+const JSON_PATH = "videos.json"; 
 const PER_PAGE = 16;
 
-// State
 let allVideos = [];
-let currentCategory = "All";
 let currentPage = 1;
+let currentCategory = "All";
 
-// ---------- FETCH DATA ----------
+// ---------- INIT ----------
 async function initApp() {
     try {
         const res = await fetch(JSON_PATH);
-        if (!res.ok) throw new Error("Failed to load videos.json");
+        if (!res.ok) throw new Error("Could not load videos.json");
+        
         allVideos = await res.json();
         
-        // Initialize UI
         initHeader();
         initSearch();
         renderGrid();
     } catch (e) {
-        console.error(e);
-        document.getElementById("videoGrid").innerHTML = "<p style='text-align:center; padding:20px;'>Error loading videos. Please check videos.json</p>";
+        console.error("Error:", e);
+        document.getElementById("videoGrid").innerHTML = 
+            `<p style="color:white; text-align:center; padding:20px;">
+                Error loading videos. Please ensure <b>videos.json</b> is in the main folder.
+            </p>`;
     }
 }
 
-// ---------- CATEGORY LOGIC ----------
-function filterVideos(category) {
-    if (category === "All") return allVideos;
-    
-    // Filter based on simple keyword matching since JSON tags vary
-    const keyword = category.split(" ")[0].toLowerCase(); // e.g., "instagram", "indian", "telegram"
-    return allVideos.filter(v => 
-        (v.title && v.title.toLowerCase().includes(keyword)) ||
-        (v.tags && v.tags.some(t => t.toLowerCase().includes(keyword)))
-    );
-}
+// ---------- HEADER CATEGORIES ----------
+function initHeader() {
+    const nav = document.getElementById("categoryTabs");
+    if (!nav) return;
+    nav.innerHTML = "";
 
-function setCategory(name) {
-    currentCategory = name;
-    currentPage = 1;
-    renderGrid();
-    updateCategoryUI();
-}
+    const categories = ["All", "Instagram Viral", "Indian Leaked", "Telegram Viral"];
 
-function updateCategoryUI() {
-    document.querySelectorAll('.cat-btn').forEach(b => {
-        if (b.innerText === currentCategory) b.classList.add('active');
-        else b.classList.remove('active');
+    categories.forEach(name => {
+        const b = document.createElement("button");
+        b.className = "cat-btn";
+        if (name === "All") b.classList.add("active");
+        b.innerText = name;
+        
+        b.onclick = () => {
+            document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+            b.classList.add('active');
+            
+            currentCategory = name;
+            currentPage = 1;
+            renderGrid();
+        };
+        
+        nav.appendChild(b);
     });
 }
 
 // ---------- RENDER GRID ----------
-function renderGrid(videosToRender = null) {
+function renderGrid(customList = null) {
     const grid = document.getElementById("videoGrid");
     const pageInfo = document.getElementById("pageInfo");
     const prev = document.getElementById("prev");
@@ -60,10 +62,16 @@ function renderGrid(videosToRender = null) {
 
     if (!grid) return;
 
-    // Determine list to show
-    const list = videosToRender || filterVideos(currentCategory);
+    let list = customList || allVideos;
+    
+    if (!customList && currentCategory !== "All") {
+        const keyword = currentCategory.split(" ")[0].toLowerCase(); 
+        list = allVideos.filter(v => 
+            v.title.toLowerCase().includes(keyword) || 
+            (v.tags && v.tags.some(t => t.toLowerCase().includes(keyword)))
+        );
+    }
 
-    // Pagination Calculation
     const totalPages = Math.ceil(list.length / PER_PAGE) || 1;
     if (currentPage > totalPages) currentPage = 1;
     
@@ -72,19 +80,27 @@ function renderGrid(videosToRender = null) {
     const pageVideos = list.slice(start, end);
 
     grid.innerHTML = "";
-
+    
     pageVideos.forEach(v => {
+        // GENERATE RANDOM VIEW COUNT (e.g., 233k, 150k)
+        const randomViews = Math.floor(Math.random() * 900 + 100) + 'k';
+
         const d = document.createElement("div");
         d.className = "card";
         d.innerHTML = `
             <div class="card-thumb-container">
-                <img src="${v.thumbnailUrl}" class="card-thumb" loading="lazy" alt="Video">
+                <img 
+                    src="${v.thumbnailUrl}" 
+                    class="card-thumb" 
+                    loading="lazy" 
+                    onerror="this.onerror=null; this.src='https://placehold.co/600x400/151525/FFF?text=No+Preview';"
+                >
                 <span class="duration-badge">${v.duration || '00:00'}</span>
             </div>
             <div class="card-info">
                 <div class="card-title">${v.title}</div>
                 <div class="card-meta">
-                    <span>${v.views ? v.views.toLocaleString() : '0'} views</span>
+                    <span>${randomViews} views</span>
                 </div>
             </div>
         `;
@@ -92,32 +108,16 @@ function renderGrid(videosToRender = null) {
         grid.appendChild(d);
     });
 
-    // Update Pagination Controls
     if (pageInfo) pageInfo.innerText = `${currentPage} / ${totalPages}`;
+    
     if (prev) {
         prev.disabled = currentPage === 1;
-        prev.onclick = () => { currentPage--; renderGrid(videosToRender); window.scrollTo(0,0); };
+        prev.onclick = () => { currentPage--; renderGrid(customList); window.scrollTo(0,0); };
     }
     if (next) {
         next.disabled = currentPage === totalPages;
-        next.onclick = () => { currentPage++; renderGrid(videosToRender); window.scrollTo(0,0); };
+        next.onclick = () => { currentPage++; renderGrid(customList); window.scrollTo(0,0); };
     }
-}
-
-// ---------- HEADER INIT ----------
-function initHeader() {
-    const nav = document.getElementById("categoryTabs");
-    if (!nav) return;
-    nav.innerHTML = "";
-
-    CATEGORIES.forEach(name => {
-        const b = document.createElement("button");
-        b.className = "cat-btn";
-        if (name === "All") b.classList.add("active");
-        b.innerText = name;
-        b.onclick = () => setCategory(name);
-        nav.appendChild(b);
-    });
 }
 
 // ---------- SEARCH ----------
@@ -128,17 +128,13 @@ function initSearch() {
     s.oninput = (e) => {
         const q = e.target.value.toLowerCase();
         if (!q) {
-            renderGrid(); // Reset to current category if empty
+            renderGrid();
             return;
         }
-        
-        const results = allVideos.filter(v => 
-            v.title.toLowerCase().includes(q)
-        );
+        const results = allVideos.filter(v => v.title.toLowerCase().includes(q));
         currentPage = 1;
         renderGrid(results);
     };
 }
 
-// Start
 document.addEventListener("DOMContentLoaded", initApp);
