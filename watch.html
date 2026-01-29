@@ -1,36 +1,53 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Watch</title>
+    <title>XSHIVER Watch</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <header>
-        <h1>XSHIVER</h1>
-        <a href="index.html" class="back-button">Back to Home</a>
-        <a href="pro.html" class="get-pro">Get Pro</a>
+        <div class="header-top">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <a href="index.html" style="font-size:1.2rem; color:white;">&#8592;</a>
+                <a href="index.html" class="logo">XSHIVER</a>
+            </div>
+            
+            <a href="pro.html" class="btn-pro">
+                GET PRO ₹99
+                <span>150+ Videos Bundle</span>
+            </a>
+        </div>
     </header>
 
-    <div class="watch-page">
-        <div class="player-box">
-            <video id="player" controls playsinline></video>
-            <h1 id="title"></h1>
-            <p id="description"></p>
-            <div id="tags"></div>
+    <main class="watch-container">
+        <div class="player-section">
+            <div class="player-box">
+                <div class="video-wrapper">
+                    <video id="player" controls playsinline poster=""></video>
+                </div>
+                
+                <h1 id="title" class="video-title">Loading...</h1>
+                <p id="description" class="video-desc"></p>
+                <div id="tags" class="tags-container"></div>
+            </div>
         </div>
 
         <div class="related-section">
-            <h3>Suggested Videos</h3>
-            <div id="related" class="video-grid"></div>
+            <h3 class="section-title">Suggested Videos</h3>
+            <div id="related" class="video-grid">
+                </div>
         </div>
-    </div>
+    </main>
 
     <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2026 XSHIVER. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#">Instagram</a>
+            <a href="#">Telegram</a>
         </div>
+        <p style="margin-top:10px; opacity:0.5;">&copy; 2026 XSHIVER</p>
     </footer>
 
     <script src="watch.js"></script>
