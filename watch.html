@@ -11,7 +11,7 @@
     <header>
         <div class="header-top">
             <div style="display:flex; align-items:center; gap:10px;">
-                <a href="index.html" style="font-size:1.2rem; color:white;">&#8592;</a>
+                <a href="index.html" style="font-size:1.5rem; color:white; line-height:1;">&#8592;</a>
                 <a href="index.html" class="logo">XSHIVER</a>
             </div>
             
@@ -23,12 +23,12 @@
     </header>
 
     <main class="watch-container">
-        <div class="player-section">
-            <div class="player-box">
-                <div class="video-wrapper">
-                    <video id="player" controls playsinline poster=""></video>
-                </div>
-                
+        <div class="player-box">
+            <div class="video-wrapper">
+                <video id="player" controls playsinline webkit-playsinline></video>
+            </div>
+            
+            <div class="video-info">
                 <h1 id="title" class="video-title">Loading...</h1>
                 <p id="description" class="video-desc"></p>
                 <div id="tags" class="tags-container"></div>
@@ -37,7 +37,7 @@
 
         <div class="related-section">
             <h3 class="section-title">Suggested Videos</h3>
-            <div id="related" class="video-grid">
+            <div id="related" class="related-grid">
                 </div>
         </div>
     </main>
