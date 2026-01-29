@@ -1,28 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Watch | XShiver</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <title>Watch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h1>XSHIVER</h1>
+        <a href="index.html" class="back-button">Back to Home</a>
+    </header>
 
-  <header class="topbar">
-    <a href="index.html" class="back">← Back</a>
-    <div class="logo">XShiver</div>
-  </header>
+    <div class="watch-page">
+        <div class="player-box">
+            <video id="player" controls playsinline></video>
+            <h1 id="title"></h1>
+            <p id="description"></p>
+            <div id="tags"></div>
+        </div>
 
-  <main class="watch-container">
-    <video id="videoPlayer" controls autoplay></video>
-
-    <div class="video-meta">
-      <h1 id="videoTitle"></h1>
+        <div class="related-section">
+            <h3>Suggested Videos</h3>
+            <div id="related" class="video-grid"></div>
+        </div>
     </div>
-  </main>
 
-  <script src="watch.js"></script>
+    <footer>
+        <div class="social-links">
+            <a href="https://instagram.com/yourusername" target="_blank">Instagram</a>
+            <a href="https://t.me/yourusername" target="_blank">Telegram</a>
+        </div>
+        <p>&copy; 2026 XSHIVER. All rights reserved.</p>
+    </footer>
+
+    <script src="watch.js"></script>
 </body>
 </html>
