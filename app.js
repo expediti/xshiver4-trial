@@ -8,23 +8,31 @@ let cache = {};
 let currentCategory = "Instagram Viral";
 let currentVideos = [];
 let currentPage = 1;
-const PER_PAGE = 12;
+const PER_PAGE = 16; // You asked for 10-16
 
-// ---------- HOURLY ROTATION ----------
+// ---------- HOURLY ROTATION (Logic Unchanged) ----------
 function rotate(arr, seed) {
     return [...arr].sort((a, b) =>
         (a.id.charCodeAt(0) + seed) - (b.id.charCodeAt(0) + seed)
     );
 }
 
-// ---------- LOAD CATEGORY ----------
+// ---------- LOAD CATEGORY (Logic Unchanged) ----------
 async function loadCategory(name) {
     currentCategory = name;
     currentPage = 1;
 
     if (!cache[name]) {
-        const res = await fetch(SOURCES[name]);
-        cache[name] = await res.json();
+        try {
+            // NOTE: Ensure these paths match your folder structure exactly
+            const res = await fetch(SOURCES[name]);
+            if (!res.ok) throw new Error("File not found");
+            cache[name] = await res.json();
+        } catch (e) {
+            console.error("Error loading category:", name, e);
+            // Fallback for safety if file missing
+            cache[name] = []; 
+        }
     }
 
     const seed = new Date().getHours() + name.length;
@@ -37,20 +45,28 @@ async function loadCategory(name) {
 // ---------- CATEGORY UI ----------
 function updateCategoryUI() {
     const buttons = document.querySelectorAll('#categoryTabs button');
-    buttons.forEach(b => b.classList.remove('active'));
-    const activeButton = document.querySelector(`#categoryTabs button[data-category="${currentCategory}"]`);
-    if (activeButton) activeButton.classList.add('active');
+    buttons.forEach(b => {
+        if (b.dataset.category === currentCategory) {
+            b.classList.add('active');
+        } else {
+            b.classList.remove('active');
+        }
+    });
 }
 
-// ---------- GRID + PAGINATION ----------
+// ---------- RENDER GRID (Updated for New UI) ----------
 function renderGrid(list = currentVideos) {
     const grid = document.getElementById("videoGrid");
     const pageInfo = document.getElementById("pageInfo");
     const prev = document.getElementById("prev");
     const next = document.getElementById("next");
 
-    const totalPages = Math.ceil(list.length / PER_PAGE);
-    if (currentPage > totalPages) currentPage = totalPages || 1;
+    if (!grid) return;
+
+    // Pagination Logic
+    const totalPages = Math.ceil(list.length / PER_PAGE) || 1;
+    if (currentPage > totalPages) currentPage = 1;
+    if (currentPage < 1) currentPage = 1;
 
     const start = (currentPage - 1) * PER_PAGE;
     const end = start + PER_PAGE;
@@ -61,31 +77,41 @@ function renderGrid(list = currentVideos) {
     pageVideos.forEach(v => {
         const d = document.createElement("div");
         d.className = "card";
+        
+        // New clean HTML structure
         d.innerHTML = `
-            <img src="${v.thumbnailUrl}">
-            <div class="info">
-                <b>${v.title}</b><br>
-                <small>${v.duration} • ${v.views} views</small>
+            <div style="position:relative;">
+                <img src="${v.thumbnailUrl}" class="card-thumb" loading="lazy" alt="Thumbnail">
+                <span class="duration-badge">${v.duration || '00:00'}</span>
+            </div>
+            <div class="card-info">
+                <div class="card-title">${v.title}</div>
+                <div class="card-meta">
+                    <span>${v.views ? v.views + ' views' : 'New'}</span>
+                </div>
             </div>
         `;
-        d.onclick = () => location = `watch.html?id=${v.id}`;
+        
+        d.onclick = () => window.location.href = `watch.html?id=${v.id}`;
         grid.appendChild(d);
     });
 
-    if (pageInfo) pageInfo.innerText = `Page ${currentPage} of ${totalPages}`;
+    if (pageInfo) pageInfo.innerText = `${currentPage} / ${totalPages}`;
     if (prev) prev.disabled = currentPage === 1;
     if (next) next.disabled = currentPage === totalPages;
 }
 
-// ---------- HEADER ----------
+// ---------- HEADER INIT ----------
 function initHeader() {
     const nav = document.getElementById("categoryTabs");
     if (!nav) return;
+    nav.innerHTML = ""; // Clear existing
 
     Object.keys(SOURCES).forEach(name => {
         const b = document.createElement("button");
         b.innerText = name;
-        b.setAttribute('data-category', name);
+        b.className = "cat-btn"; // New class
+        b.dataset.category = name;
         b.onclick = () => loadCategory(name);
         nav.appendChild(b);
     });
@@ -98,27 +124,35 @@ function initSearch() {
 
     s.oninput = () => {
         const q = s.value.toLowerCase();
-        const all = Object.values(cache).flat();
-        currentPage = 1;
-        renderGrid(all.filter(v => v.title.toLowerCase().includes(q)));
+        // Search across all cached categories for better results
+        const all = Object.values(cache).flat(); 
+        const results = all.filter(v => v.title && v.title.toLowerCase().includes(q));
+        
+        // If nothing cached yet, search current only
+        if (all.length === 0) {
+             renderGrid(currentVideos.filter(v => v.title.toLowerCase().includes(q)));
+        } else {
+             currentPage = 1;
+             renderGrid(results);
+        }
     };
 }
 
-// ---------- BUTTONS ----------
+// ---------- PAGINATION LISTENERS ----------
 document.addEventListener("click", e => {
     if (e.target.id === "prev") {
         currentPage--;
         renderGrid();
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     if (e.target.id === "next") {
         currentPage++;
         renderGrid();
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 });
 
-// ---------- INIT ----------
+// ---------- STARTUP ----------
 document.addEventListener("DOMContentLoaded", () => {
     initHeader();
     initSearch();
