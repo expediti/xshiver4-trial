@@ -1,35 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5PXH0YEB7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K5PXH0YEB7');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XSHIVER Pro</title>
+    <title>XSHIVER PRO - Premium Content</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Specific Styles for Pro Page Buttons */
+        .disk-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #ff0055, #ff5500);
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            margin-top: 10px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            border: none;
+        }
+        .disk-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.4);
+        }
+        .pro-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: radial-gradient(circle at center, #1a1a3a 0%, #0a0a1a 100%);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
+
     <header>
-        <h1>XSHIVER</h1>
-        <a href="index.html" class="back-button">Back to Home</a>
+        <div class="header-top">
+            <div style="display:flex; align-items:center; gap:10px;">
+                <a href="index.html" style="font-size:1.5rem; color:white; line-height:1;">&#8592;</a>
+                <a href="index.html" class="logo">XSHIVER PRO</a>
+            </div>
+        </div>
     </header>
 
-    <main class="pro-page">
-        <div class="pro-card">
-            <h2>XSHIVER Pro</h2>
-            <p class="price">₹99 <span class="original-price">₹299</span></p>
-            <ul class="features">
-                <li>150+ Bundle Videos</li>
-                <li>Direct Google Drive Links</li>
-                <li>No Ads</li>
-                <li>Premium Content</li>
-            </ul>
-            <a href="#" class="buy-button">Buy Now</a>
-        </div>
+    <div class="pro-header">
+        <h1 style="color: white; font-size: 1.8rem; margin-bottom: 10px;">Premium Collections</h1>
+        <p style="color: #a0a0b0; font-size: 0.9rem;">Click on any video below to unlock full access.</p>
+    </div>
+
+    <main>
+        <div class="video-grid" id="proGrid">
+            </div>
     </main>
 
     <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2026 XSHIVER. All rights reserved.</p>
-        </div>
+        <p style="margin-top:10px; opacity:0.5;">&copy; 2026 XSHIVER</p>
     </footer>
+
+    <script src="pro.js"></script>
 </body>
 </html>
