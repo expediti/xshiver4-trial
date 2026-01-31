@@ -13,14 +13,14 @@ const proVideos = [
 
     // --- ITEM 2 ---
     {
-        image: "pro2.jpg",
+        image: "pro3.jpg",
         title: "Milf girl leaked full",
         link: "https://www.diskwala.com/app/697daa3039857e10c60523fc"
     },
 
     // --- ITEM 3 ---
     {
-        image: "pro3.jpg",
+        image: "pro2.jpg",
         title: "Mother sucking small dick",
         link: "https://www.diskwala.com/app/697daa2f39857e10c60523d4"
     },
@@ -28,7 +28,7 @@ const proVideos = [
     // --- ITEM 4 (Copy this block to add more!) ---
     {
         image: "pro4.jpg",
-        title: "coming soon",
+        title: "coming soon....",
         link: "PASTE_DISK_WALA_LINK_HERE"
     }
 
