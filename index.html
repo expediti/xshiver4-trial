@@ -3,19 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XSHIVER</title>
+    <title>XSHIVER - Pro</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo-link">
-            <img src="logo.svg" alt="XSHIVER" class="logo-img">
-        </a>
-        
-        <div class="search-bar">
-            <input type="text" id="searchInput" placeholder="Search...">
+        <div class="header-inner">
+            <a href="index.html" class="logo-link">
+                <img src="logo.svg" alt="XSHIVER" class="logo-img">
+            </a>
+            
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search videos...">
+            </div>
         </div>
     </header>
 
@@ -23,12 +25,12 @@
         <div class="video-grid" id="videoGrid">
             </div>
         
-        <div id="loading" class="loading">Loading videos...</div>
+        <div id="loading" class="loading">Loading content...</div>
 
         <div class="pagination">
-            <button id="prevBtn" onclick="changePage(-1)">&#8592;</button>
+            <button id="prevBtn" onclick="changePage(-1)">&#8592; Prev</button>
             <span id="pageIndicator">Page 1</span>
-            <button id="nextBtn" onclick="changePage(1)">&#8594;</button>
+            <button id="nextBtn" onclick="changePage(1)">Next &#8594;</button>
         </div>
     </main>
 
