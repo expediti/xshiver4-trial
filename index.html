@@ -1,38 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5PXH0YEB7"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-K5PXH0YEB7');
+    </script>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>XSHIVER - Pro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>XSHIVER</title>
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <div class="header-inner">
-            <a href="index.html" class="logo-link">
-                <img src="logo.svg" alt="XSHIVER" class="logo-img">
+        <div class="header-top">
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="XSHIVER">
             </a>
             
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search videos...">
-            </div>
+            <a href="pro.html" class="btn-pro">
+                GET PRO ₹99
+                <span>150+ Videos Bundle</span>
+            </a>
         </div>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search videos...">
+        </div>
+
+        <nav class="category-scroll" id="categoryTabs"></nav>
     </header>
 
     <main>
-        <div class="video-grid" id="videoGrid">
-            </div>
-        
-        <div id="loading" class="loading">Loading content...</div>
+        <div class="video-grid" id="videoGrid"></div>
 
         <div class="pagination">
-            <button id="prevBtn" onclick="changePage(-1)">&#8592; Prev</button>
-            <span id="pageIndicator">Page 1</span>
-            <button id="nextBtn" onclick="changePage(1)">Next &#8594;</button>
+            <button id="prev">Prev</button>
+            <span id="pageInfo">1 / 1</span>
+            <button id="next">Next</button>
+        </div>
+
+        <div class="ad-section">
+            <div class="ad-title">Sponsored</div>
+            <div class="ad-grid">
+                <a href="#" target="_blank" class="ad-slot">
+                    <img src="ad1.jpg" onerror="this.style.display='none'" alt="Ad">
+                </a>
+                <a href="#" target="_blank" class="ad-slot">
+                    <img src="ad2.jpg" onerror="this.style.display='none'" alt="Ad">
+                </a>
+                <a href="#" target="_blank" class="ad-slot">
+                    <img src="ad3.jpg" onerror="this.style.display='none'" alt="Ad">
+                </a>
+                <a href="#" target="_blank" class="ad-slot">
+                    <img src="ad4.jpg" onerror="this.style.display='none'" alt="Ad">
+                </a>
+            </div>
         </div>
     </main>
+
+    <footer>
+        <div class="social-links">
+            <a href="#">Instagram</a>
+            <a href="#">Telegram</a>
+        </div>
+        <p style="margin-top:10px; opacity:0.5;">&copy; 2026 XSHIVER</p>
+    </footer>
 
     <script src="app.js"></script>
 </body>
