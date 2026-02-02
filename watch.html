@@ -1,101 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-K5PXH0YEB7"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-K5PXH0YEB7');
-    </script>
-
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>XSHIVER Watch</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XSHIVER - Watch</title>
+    <link rel="icon" href="favicon.png" type="image/png">
     <link rel="stylesheet" href="style.css">
-
-
-<script src="https://pl26670126.effectivegatecpm.com/3f/1e/21/3f1e21066ee005967e9e8e761ddbcebd.js"></script>
-
-
-
-    
 </head>
 <body>
 
     <header>
-        <div class="header-top">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <a href="index.html" style="font-size:1.5rem; color:white; line-height:1;">&#8592;</a>
-                <a href="index.html" class="logo">XSHIVER</a>
-            </div>
-            
-            <a href="pro.html" class="btn-pro">
-                GET PRO ₹99
-                <span>150+ Videos Bundle</span>
+        <div style="display:flex; align-items:center; gap:15px; width: 100%; max-width: 1200px; margin: 0 auto;">
+            <a href="index.html" class="back-btn">&#8592; Back</a>
+            <a href="index.html" class="logo-link">
+                <img src="logo.png" alt="XSHIVER Logo" class="logo-img">
             </a>
         </div>
     </header>
 
-    <main class="watch-container">
-        <div class="player-box">
-            <div class="video-wrapper">
-                <video id="player" controls playsinline webkit-playsinline></video>
-            </div>
-            
-            <div class="video-info">
-                <h1 id="title" class="video-title">Loading...</h1>
-                <p id="description" class="video-desc"></p>
-                <div id="tags" class="tags-container"></div>
-            </div>
+    <div class="content-wrapper">
+
+        <div class="player-container">
+            <video id="mainPlayer" controls autoplay playsinline class="video-player">
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
         </div>
 
-        <div class="related-section">
-            <h3 class="section-title">Suggested Videos</h3>
-            <div id="related" class="related-grid">
-                </div>
-        </div>
-    </main>
-
-    <div style="max-width:1200px; margin:0 auto; padding:15px;">
-        <div class="ad-section">
-            <div class="ad-title">Premium Site Links</div>
-            <div class="ad-grid">
-                
-                <a href="https://xshiver.online/" target="_blank" class="ad-slot">
-                    <img src="ad1.png" alt="Ad" style="width:100%; height:100%; object-fit:cover;">
-                </a>
-
-                <a href="https://www.effectivegatecpm.com/ae8jkexvi?key=2e8c7fcc18a5541204b61c2abaf7fee6" target="_blank" class="ad-slot">
-                    <img src="ad2.png" alt="Ad" style="width:100%; height:100%; object-fit:cover;">
-                </a>
-
-                <a href="https://www.effectivegatecpm.com/cvb2bj9un?key=e9b37b2578e67b56bed071f22d47fd1f" target="_blank" class="ad-slot">
-                    <img src="ad3.png" alt="Ad" style="width:100%; height:100%; object-fit:cover;">
-                </a>
-
-                <a href="https://xshiver.online/" target="_blank" class="ad-slot">
-                    <img src="ad4.png" alt="Ad" style="width:100%; height:100%; object-fit:cover;">
-                </a>
-
+        <div class="video-info">
+            <h1 id="videoTitle">Loading title...</h1>
+            <div class="stats-row">
+                <span id="videoViews" class="views-count">-- views</span>
             </div>
         </div>
+
+        <hr style="border: 0; border-top: 1px solid #333; margin: 20px 0;">
+
+        <div class="suggestions-label">Up Next</div>
+        <div class="video-grid" id="suggestionGrid">
+            </div>
+
     </div>
-    <footer>
-        <div class="social-links">
-            <a href="#">Instagram</a>
-            <a href="#">Telegram</a>
-        </div>
-        <p style="margin-top:10px; opacity:0.5;">&copy; 2026 XSHIVER</p>
-    </footer>
 
     <script src="watch.js"></script>
-
-
-
-<script src="https://pl26644817.effectivegatecpm.com/e7/8a/82/e78a8229a575e82eafe9d2dab6b17600.js"></script>
-
-
-    
 </body>
 </html>
