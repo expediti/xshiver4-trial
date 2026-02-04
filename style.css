@@ -1,5 +1,4 @@
 :root {
-    /* DEFAULT DARK THEME */
     --bg-main: #0a0a1a;
     --bg-card: #151525;
     --text-primary: #ffffff;
@@ -11,7 +10,6 @@
     --header-bg: rgba(10, 10, 26, 0.98);
 }
 
-/* LIGHT THEME OVERRIDES */
 body.light-mode {
     --bg-main: #f0f2f5;
     --bg-card: #ffffff;
@@ -33,7 +31,6 @@ body {
 
 a { text-decoration: none; color: inherit; }
 
-/* HEADER */
 header {
     background: var(--header-bg); backdrop-filter: blur(10px);
     position: sticky; top: 0; z-index: 100;
@@ -45,14 +42,8 @@ header {
 .logo { display: flex; align-items: center; }
 .logo img { height: 32px; width: auto; display: block; }
 
-/* HEADER ACTION BUTTONS GROUP */
-.header-actions {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
+.header-actions { display: flex; gap: 10px; align-items: center; }
 
-/* THEME TOGGLE */
 .theme-btn {
     background: var(--bg-card); border: 1px solid var(--border);
     color: var(--text-primary); width: 35px; height: 35px;
@@ -60,7 +51,6 @@ header {
     cursor: pointer; font-size: 1.2rem;
 }
 
-/* HIGHLIGHTED BUTTONS */
 .btn-pro, .btn-audio {
     padding: 6px 12px; border-radius: 20px;
     font-size: 0.75rem; font-weight: 700;
@@ -99,7 +89,6 @@ header {
 }
 .search-input:focus { border-color: var(--accent); box-shadow: var(--accent-glow); }
 
-/* CATEGORY SCROLL */
 .category-scroll {
     display: flex; gap: 10px; overflow-x: auto;
     padding-bottom: 5px; scrollbar-width: none; align-items: center;
@@ -117,10 +106,8 @@ header {
     border-color: var(--accent); box-shadow: var(--accent-glow);
 }
 
-/* MAIN */
 main { padding: 15px; }
 
-/* PREMIUM BOX */
 .premium-box {
     display: block;
     background: linear-gradient(90deg, #151525, #0a0a1a);
@@ -149,11 +136,9 @@ main { padding: 15px; }
     100% { transform: scale(1); }
 }
 
-/* GRID */
 .video-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 @media (min-width: 768px) { .video-grid { grid-template-columns: repeat(4, 1fr); gap: 20px; } }
 
-/* CARDS */
 .card {
     background: var(--bg-card); border-radius: var(--radius);
     overflow: hidden; cursor: pointer; border: 1px solid transparent;
@@ -176,7 +161,6 @@ main { padding: 15px; }
 }
 .card-meta { font-size: 0.7rem; color: var(--text-secondary); }
 
-/* BOTTOM AD */
 .ad-section { margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border); }
 .ad-title {
     font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 15px;
@@ -203,7 +187,6 @@ main { padding: 15px; }
 .free-title { color: var(--accent); font-weight: 900; font-size: 1.1rem; line-height: 1.2; }
 .free-sub { color: white; font-size: 0.8rem; opacity: 0.8; margin-top: 2px; }
 
-/* PAGINATION */
 .pagination { display: flex; justify-content: center; gap: 15px; margin-top: 30px; align-items: center; }
 .pagination button {
     background: var(--bg-card); border: 1px solid var(--border);
@@ -211,14 +194,13 @@ main { padding: 15px; }
 }
 .pagination button:disabled { opacity: 0.5; }
 
-/* FOOTER */
 footer {
     text-align: center; padding: 20px; color: var(--text-secondary);
     font-size: 0.8rem; border-top: 1px solid var(--border); margin-top: 20px;
 }
 .social-links a { color: var(--accent); margin: 0 10px; }
 
-/* 🔥 AUDIO PLAYER STYLES (NEW) 🔥 */
+/* AUDIO PLAYER */
 .audio-card {
     background: var(--bg-card); border-radius: var(--radius);
     padding: 15px; margin-bottom: 15px; border: 1px solid var(--border);
@@ -242,10 +224,11 @@ footer {
 }
 .ctrl-btn.secondary { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-secondary); width: 30px; height: 30px;}
 
-/* 🔥 POPUP OVERLAY STYLES 🔥 */
+/* POPUP - Increased Z-Index to Fix Click Issue */
 .popup-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.95); z-index: 9999;
+    background: rgba(0, 0, 0, 0.95); 
+    z-index: 100000; /* FORCE ON TOP */
     backdrop-filter: blur(10px);
     display: flex; justify-content: center; align-items: center;
     padding: 20px;
@@ -254,6 +237,7 @@ footer {
     background: #1a1a24; border: 2px solid #00b4ff;
     border-radius: 16px; padding: 30px 20px; width: 100%; max-width: 400px;
     text-align: center; box-shadow: 0 0 30px rgba(0, 180, 255, 0.2);
+    position: relative; z-index: 100001;
 }
 .popup-btn-group {
     display: flex; gap: 15px; justify-content: center; margin-top: 20px;
