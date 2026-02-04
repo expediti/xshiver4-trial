@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
         } else {
-            playerContainer.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Audio Not Found</h2><a href="audio.html" style="color:var(--accent);">Go Back</a></div>`;
+            playerContainer.innerHTML = `<div style="text-align:center; padding:50px;"><h2>Audio Not Found</h2><a href="Stories.html" style="color:var(--accent);">Go Back</a></div>`;
         }
     }
 });
