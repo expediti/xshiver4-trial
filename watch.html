@@ -12,6 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>XSHIVER Watch</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     
     <script src="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.js"></script>
     <link rel="stylesheet" href="https://cdn.fluidplayer.com/v3/current/fluidplayer.min.css" type="text/css"/>
@@ -19,19 +20,18 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr) !important; 
-            gap: 10px;
+        @media (max-width: 768px) {
+            .video-grid {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 10px !important;
+            }
         }
-        @media (min-width: 768px) {
-            .video-grid { grid-template-columns: repeat(4, 1fr) !important; }
-        }
-        /* Fix Player Height for Mobile */
         .video-wrapper {
             width: 100%;
             height: auto;
             aspect-ratio: 16/9;
+            background: #000;
         }
     </style>
 </head>
@@ -40,16 +40,23 @@
     <header>
         <div class="header-top">
             <div style="display:flex; align-items:center; gap:10px;">
-                <a href="index.html" style="font-size:1.5rem; color:white; line-height:1; text-decoration:none;">&#8592;</a>
+                <a href="index.html" style="font-size:1.5rem; color:var(--text-primary); line-height:1; text-decoration:none;">&#8592;</a>
                 <a href="index.html" class="logo">
                     <img src="logo.svg" alt="XSHIVER" onerror="this.src='https://placehold.co/150x50/0a0a1a/00b4ff?text=XSHIVER'">
                 </a>
             </div>
             
-            <a href="pro.html" class="btn-pro">
-                GET PRO FREE
-                <span>150+ Videos Bundle</span>
-            </a>
+            <div class="header-actions">
+                <a href="audio.html" class="btn-audio">
+                    AUDIO 🎧
+                    <span>Stories</span>
+                </a>
+                <a href="pro.html" class="btn-pro">
+                    GET PRO
+                    <span>Bundle</span>
+                </a>
+                <button id="themeToggle" class="theme-btn">🌙</button>
+            </div>
         </div>
     </header>
 
@@ -86,6 +93,21 @@
         </div>
         <p style="margin-top:10px; opacity:0.5;">&copy; 2026 XSHIVER</p>
     </footer>
+
+    <script>
+        const toggleBtn = document.getElementById('themeToggle');
+        const body = document.body;
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('light-mode');
+            toggleBtn.innerText = '☀️';
+        }
+        toggleBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            const isLight = body.classList.contains('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            toggleBtn.innerText = isLight ? '☀️' : '🌙';
+        });
+    </script>
 
     <script src="watch.js"></script>
 </body>
