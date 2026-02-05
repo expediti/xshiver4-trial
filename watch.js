@@ -10,7 +10,11 @@ const params = new URLSearchParams(window.location.search);
 const currentId = params.get("id");
 
 async function initWatch() {
-    if (!currentId) { window.location.href = "index.html"; return; }
+    // FIX: Removed the automatic redirect to prevent loops
+    if (!currentId) { 
+        document.getElementById("title").innerText = "No video ID provided.";
+        return; 
+    }
 
     // SEO Canonical
     let link = document.querySelector("link[rel='canonical']");
@@ -25,26 +29,34 @@ async function initWatch() {
         let foundVideo = null;
         let allVideos = [];
 
-        // 1. Loop through all files to find the video
-        for (const url of DATA_FILES) {
-            try {
-                const res = await fetch(url);
-                const data = await res.json();
-                
-                // Add to main list for suggestions later
-                allVideos = allVideos.concat(data);
+        // 1. TRY LOADING FROM CACHE FIRST (Super Fast)
+        const cachedData = sessionStorage.getItem('xshiver_cache_all');
+        if (cachedData) {
+            allVideos = JSON.parse(cachedData);
+            foundVideo = allVideos.find(v => v.id === currentId);
+        }
 
-                // Check if this file has our video
-                const match = data.find(v => v.id === currentId);
-                if (match) {
-                    foundVideo = match;
+        // 2. IF NOT IN CACHE, FETCH FILES (Fallback)
+        if (!foundVideo || allVideos.length === 0) {
+            for (const url of DATA_FILES) {
+                try {
+                    const res = await fetch(url);
+                    if (!res.ok) continue;
+                    const data = await res.json();
+                    
+                    allVideos = allVideos.concat(data);
+
+                    const match = data.find(v => v.id === currentId);
+                    if (match) {
+                        foundVideo = match;
+                    }
+                } catch (err) {
+                    console.warn(`Could not load ${url}`, err);
                 }
-            } catch (err) {
-                console.warn(`Could not load ${url}`, err);
             }
         }
 
-        // 2. If video found, render it
+        // 3. If video found, render it
         if (foundVideo) {
             // UI & SEO
             document.title = foundVideo.title + " - XSHIVER";
@@ -63,14 +75,10 @@ async function initWatch() {
                 });
             }
 
-            // --- FLUID PLAYER SETUP (FIXED) ---
+            // --- FLUID PLAYER SETUP ---
             const playerVideoTag = document.getElementById("mainPlayer");
-            
-            // Set Source
             playerVideoTag.innerHTML = `<source src="${foundVideo.embedUrl}" type="video/mp4" />`;
             
-            // Initialize Player
-            // NOTICE: I removed the 'logo' section so it won't cover your video!
             fluidPlayer("mainPlayer", {
                 layoutControls: {
                     fillToContainer: true,
@@ -89,11 +97,11 @@ async function initWatch() {
                 }
             });
 
-            // 3. Render Suggestions
+            // 4. Render Suggestions
             renderRelated(foundVideo, allVideos);
 
         } else {
-            document.getElementById("title").innerText = "Video not found in any database.";
+            document.getElementById("title").innerText = "Video not found.";
         }
 
     } catch (e) {
