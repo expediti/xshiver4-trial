@@ -6,8 +6,6 @@ const SOURCES = {
 };
 
 const PER_PAGE = 20;
-let cache = {};
-let currentCategory = "All"; 
 let currentVideos = [];
 let currentPage = 1;
 
@@ -32,6 +30,7 @@ async function loadDataForCategory(category) {
         let videosToShow = [];
 
         // 1. CHECK BROWSER CACHE (SPEED FIX)
+        // This stops re-downloading files on every reload
         const cachedData = sessionStorage.getItem('xshiver_cache_all');
 
         if (category === "All" && cachedData) {
@@ -52,18 +51,15 @@ async function loadDataForCategory(category) {
                 const results = await Promise.all(promises);
                 videosToShow = results.flat();
 
-                // Save to session for instant load next time
+                // Save for next time (Instant Load)
                 try {
                     sessionStorage.setItem('xshiver_cache_all', JSON.stringify(videosToShow));
                 } catch(e) {}
             } else {
+                // Specific category fetch (not cached to save memory)
                 const url = SOURCES[category];
-                if (!cache[url]) {
-                    const res = await fetch(url);
-                    if (!res.ok) throw new Error(`File not found`);
-                    cache[url] = await res.json();
-                }
-                videosToShow = cache[url];
+                const res = await fetch(url);
+                videosToShow = await res.json();
             }
         }
 
@@ -150,14 +146,20 @@ function initHeader() {
     const allBtn = document.createElement("button");
     allBtn.className = "cat-btn active";
     allBtn.innerText = "All";
-    allBtn.onclick = () => { currentCategory = "All"; updateCategoryUI("All"); loadDataForCategory("All"); };
+    allBtn.onclick = () => { 
+        // Reset sort to reshuffle on click
+        loadDataForCategory("All"); 
+    };
     nav.appendChild(allBtn);
 
     Object.keys(SOURCES).forEach(name => {
         const b = document.createElement("button");
         b.className = "cat-btn";
         b.innerText = name;
-        b.onclick = () => { currentCategory = name; updateCategoryUI(name); loadDataForCategory(name); };
+        b.onclick = () => { 
+            updateCategoryUI(name); 
+            loadDataForCategory(name); 
+        };
         nav.appendChild(b);
     });
 }
