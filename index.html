@@ -155,7 +155,7 @@
             toggleBtn.innerText = isLight ? '☀️' : '🌙';
         });
 
-        // 2. 18+ Verification (CLEAN ENTRY - NO AD ON YES)
+        // 2. 18+ Verification (NO ADS HERE)
         document.addEventListener("DOMContentLoaded", () => {
             try {
                 const isVerified = localStorage.getItem("xshiver_age_verified");
@@ -171,7 +171,6 @@
         });
 
         function enterSite() {
-            // Hide popup immediately - NO AD TRIGGER HERE
             const popup = document.getElementById("agePopup");
             if(popup) popup.style.display = "none";
             try { localStorage.setItem("xshiver_age_verified", "true"); } catch (e) {}
@@ -181,21 +180,29 @@
             window.location.href = "https://www.google.com";
         }
 
-        // 3. 🔥 SMARTLINK INTERCEPTOR (Restricted) 🔥
-        // Only triggers on CONTENT (Cards) and Premium Buttons.
+        // 3. 🔥 MINIMAL SMARTLINK LOGIC 🔥
         const smartLinkUrl = "https://www.effectivegatecpm.com/av3badn4?key=c1f018cbffd17263e26824b8463a33e2";
-        let isAdShown = false; // Flag to ensure it only happens ONCE
+        let isAdShown = false;
+        let isAdActive = false; // Ad starts disabled
+
+        // Activate ad ONLY after 4 seconds (User spending time)
+        setTimeout(() => {
+            isAdActive = true;
+        }, 4000);
 
         document.addEventListener('click', function(event) {
-            // Target specific elements: Video Cards, Pro Button, Audio Button
+            // Trigger ONLY on Video Cards and Premium Buttons
             const target = event.target.closest('.card, .btn-pro, .btn-audio');
             
-            if (target && !isAdShown) {
-                event.preventDefault(); // Stop click
+            // Logic: Ad must be Active (Time passed) AND Not Shown Yet
+            if (target && isAdActive && !isAdShown) {
+                event.preventDefault();
                 event.stopPropagation();
-                isAdShown = true; // Mark as shown
-                window.open(smartLinkUrl, '_blank'); // Open Ad
-                // User must click again to proceed (Standard practice)
+                
+                // Mark shown so it NEVER shows again on this page load
+                isAdShown = true; 
+                
+                window.open(smartLinkUrl, '_blank');
             }
         }, true);
     </script>
