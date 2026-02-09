@@ -28,19 +28,45 @@
     <link rel="stylesheet" href="style.css">
 
     <style>
-        /* INTRO ANIMATION OVERLAY */
+        /* 🔥 FULL SCREEN INTRO OVERLAY 🔥 */
         #introOverlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: #0a0a1a; 
+            background-color: #000; 
             z-index: 200000; 
             display: none; 
             align-items: center; justify-content: center;
-            flex-direction: column;
         }
         #introVideo {
-            width: 300px;
-            height: auto;
-            max-width: 80%;
+            width: 100vw; 
+            height: 100vh;
+            object-fit: contain; /* Ensures logo fits inside screen */
+        }
+
+        /* 🔥 SOCIAL POPUP (TELEGRAM) 🔥 */
+        .social-popup {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+            width: 90%; max-width: 400px;
+            background: linear-gradient(135deg, #151525, #0a0a1a);
+            border: 1px solid #00b4ff;
+            border-radius: 12px;
+            padding: 20px;
+            z-index: 150000;
+            display: none; /* Hidden by default */
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.3);
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp { from { bottom: -100px; opacity: 0; } to { bottom: 20px; opacity: 1; } }
+        
+        .social-title { color: #fff; font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; }
+        .social-text { color: #aaa; font-size: 0.9rem; margin-bottom: 15px; }
+        .btn-join {
+            display: block; width: 100%; padding: 12px;
+            background: #0088cc; color: white; font-weight: bold;
+            border-radius: 8px; text-decoration: none; margin-bottom: 10px;
+        }
+        .btn-close-social {
+            background: transparent; border: none; color: #555; cursor: pointer; font-size: 0.8rem; text-decoration: underline;
         }
     </style>
 </head>
@@ -50,6 +76,13 @@
         <video id="introVideo" autoplay muted playsinline>
             <source src="Introgif.mp4" type="video/mp4">
         </video>
+    </div>
+
+    <div id="socialPopup" class="social-popup">
+        <div class="social-title">Join XSHIVER VIP 🚀</div>
+        <div class="social-text">Get exclusive leaked videos first!</div>
+        <a href="https://t.me/+_jl8nQ_iE0szMzg1" target="_blank" class="btn-join">JOIN TELEGRAM CHANNEL</a>
+        <button class="btn-close-social" onclick="closeSocialPopup()">Close</button>
     </div>
 
     <header>
@@ -181,6 +214,7 @@
                 const popup = document.getElementById("agePopup");
                 if (isVerified === "true") {
                     popup.style.display = "none";
+                    startSocialTimer(); // User already verified, start timer
                 } else {
                     popup.style.display = "flex";
                 }
@@ -207,15 +241,28 @@
                 setTimeout(() => {
                     overlay.style.display = "none";
                     try { localStorage.setItem("xshiver_age_verified", "true"); } catch (e) {}
+                    startSocialTimer(); // Start timer after intro
                 }, 2500); 
             } else {
                 try { localStorage.setItem("xshiver_age_verified", "true"); } catch (e) {}
+                startSocialTimer();
             }
         }
 
         function leaveSite(e) {
             if(e) e.stopPropagation();
             window.location.href = "https://www.google.com";
+        }
+
+        // 3. 🔥 SOCIAL POPUP LOGIC 🔥
+        function startSocialTimer() {
+            setTimeout(() => {
+                document.getElementById("socialPopup").style.display = "block";
+            }, 7000); // 7 Seconds Delay
+        }
+
+        function closeSocialPopup() {
+            document.getElementById("socialPopup").style.display = "none";
         }
     </script>
 
